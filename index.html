@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Étudiant Informatique Appliquée</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <span class="logo-bracket">&lt;</span>
+      <span class="logo-name">Ba</span>
+      <span class="logo-bracket">/&gt;</span>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#accueil" class="nav-link active">Accueil</a></li>
+      <li><a href="#apropos" class="nav-link">À Propos</a></li>
+      <li><a href="#projets" class="nav-link">Projets</a></li>
+      <li><a href="#cv" class="nav-link">CV</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <div class="nav-controls">
+      <button class="ctrl-btn" id="homeBtn" title="Retour accueil" onclick="scrollToSection('accueil')">
+        <i class="fas fa-house"></i>
+      </button>
+      <button class="ctrl-btn" id="themeToggle" title="Changer le thème">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+      <button class="ctrl-btn" id="backBtn" title="Retour" onclick="history.back()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <button class="ctrl-btn hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- SECTION ACCUEIL -->
+  <section id="accueil" class="section hero-section">
+    <div class="hero-bg">
+      <div class="grid-overlay"></div>
+      <div class="floating-shapes">
+        <span class="shape s1"></span>
+        <span class="shape s2"></span>
+        <span class="shape s3"></span>
+      </div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-badge"><i class="fas fa-graduation-cap"></i> Licence Informatique Appliquée</p>
+      <h1 class="hero-title">
+        Bonjour, je suis<br>
+        <span class="highlight-name">Abdoulie</span>
+      </h1>
+      <p class="hero-subtitle typed-text" id="typedText"></p>
+      <div class="hero-btns">
+        <a href="#projets" class="btn btn-primary"><i class="fas fa-folder-open"></i> Voir mes projets</a>
+        <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Me contacter</a>
+      </div>
+      <div class="hero-socials">
+        <a href="https://github.com/Abdoulie04/Abdoulie.git" class="social-link" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/abdoulie-ba-b39453341/" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:ba.abdoulie@uam.edu.sn" class="social-link" title="Email" target="_blank"><i class="fas fa-envelope"></i></a>
+        <a href="https://www.tiktok.com/@abdoulie__ba?_r=1&_t=ZS-96o8Ai5f8Bs" class="social-link"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="avatar-ring">
+        <img src="assets/profil.jpg" alt="Photo de profil" class="avatar-img" onerror="this.style.display='none'; this.parentElement.classList.add('no-img')"/>
+        <div class="avatar-placeholder"><i class="fas fa-user"></i></div>
+      </div>
+      <div class="tech-tags">
+        <span class="tag">Python</span>
+        <span class="tag">HTML/CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Java</span>
+        <span class="tag">Linux</span>
+        <span class="tag">C</span>
+        <span class="tag">Pascal</span>
+        <span class="tag">AlgoAvancée</span>
+        <span class="tag">JavaAvancée</span>
+      </div>
+    </div>
+    <a href="#apropos" class="scroll-down"><i class="fas fa-chevron-down"></i></a>
+  </section>
+
+  <!-- SECTION À PROPOS -->
+  <section id="apropos" class="section about-section">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2 class="section-title">À Propos <span class="accent">de Moi</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+
+      <div class="about-card card-presentation reveal">
+        <div class="card-icon"><i class="fas fa-id-card"></i></div>
+        <h3>Présentation</h3>
+        <p>Je m'appelle <strong>Abdoulie Ba</strong>, étudiant en Licence 3 d'Informatique Appliquée. Passionné par le développement logiciel, l'intelligence Artificielle, les bases de données et les nouvelles technologies, je cherche constamment à apprendre et à relever de nouveaux défis techniques.</p>
+        <ul class="info-list">
+          <li><i class="fas fa-map-marker-alt"></i> Dakar et Saly, Sénégal</li>
+          <li><i class="fas fa-university"></i> Université Amadou Mahtar Mbow (UAM)</li>
+          <li><i class="fas fa-calendar-alt"></i> Promotion 2024–2025</li>
+          <li><i class="fas fa-language"></i> Anglais, Français, Wolof, Peulh</li>
+        </ul>
+      </div>
+
+      <div class="about-card card-parcours reveal">
+        <div class="card-icon"><i class="fas fa-road"></i></div>
+        <h3>Mon Parcours</h3>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <span class="tl-date">2026</span>
+              <strong>Licence 3 — Informatique Appliquée (En cours)</strong>
+              <p>Université Amadou Mahtar Mbow (UAM), Sénégal</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <span class="tl-date">2025</span>
+              <strong>Licence 2 — Mathématiques, Physique & Informatique</strong>
+              <p>Université Amadou Mahtar Mbow (UAM), Sénégal</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <span class="tl-date">2025</span>
+              <strong>Certification Numérique</strong>
+              <p>Orange Digital Center — Sénégal</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <span class="tl-date">2024</span>
+              <strong>Licence 1 — Mathématiques, Physique & Informatique</strong>
+              <p>Université Amadou Mahtar Mbow (UAM), Sénégal</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <span class="tl-date">2023</span>
+              <strong>Baccalauréat Série S2</strong>
+              <p>Groupe Scolaire Étienne et Monique de Mbour</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <span class="tl-date">2020</span>
+              <strong>BFEM</strong>
+              <p>Groupe Scolaire Étienne et Monique de Mbour</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-card card-motivations reveal">
+        <div class="card-icon"><i class="fas fa-fire"></i></div>
+        <h3>Mes Motivations</h3>
+        <p>Ma principale motivation est de contribuer au développement technologique en Afrique. Je crois fermement que l'informatique est un levier puissant pour résoudre les problèmes locaux et créer de la valeur. J'aspire à devenir développeur full-stack et entrepreneur tech.</p>
+        <div class="motivation-chips">
+          <span class="chip"><i class="fas fa-lightbulb"></i> Innovation</span>
+          <span class="chip"><i class="fas fa-globe-africa"></i> Impact local</span>
+          <span class="chip"><i class="fas fa-rocket"></i> Entrepreneuriat</span>
+          <span class="chip"><i class="fas fa-book-open"></i> Apprentissage</span>
+        </div>
+      </div>
+
+      <div class="about-card card-skills reveal">
+        <div class="card-icon"><i class="fas fa-tools"></i></div>
+        <h3>Mes Compétences</h3>
+        <div class="skills-group">
+          <h4><i class="fas fa-code"></i> Domaines</h4>
+          <div class="skill-bars">
+            <div class="skill-bar"><span>Python</span><div class="bar"><div class="fill" style="--w:80%">80%</div></div></div>
+            <div class="skill-bar"><span>HTML / CSS</span><div class="bar"><div class="fill" style="--w:85%">85%</div></div></div>
+            <div class="skill-bar"><span>JavaScript</span><div class="bar"><div class="fill" style="--w:80%">80%</div></div></div>
+            <div class="skill-bar"><span>Java</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
+            <div class="skill-bar"><span>SQL</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
+            <div class="skill-bar"><span>Internet des objets</span><div class="bar"><div class="fill" style="--w:80%">80%</div></div></div>
+            <div class="skill-bar"><span>Analyse de données</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
+            <div class="skill-bar"><span>Data science</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
+            <div class="skill-bar"><span>Recherche operationnelle</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
+            <div class="skill-bar"><span>UML</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
+            <div class="skill-bar"><span>Langage C</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
+          </div>
+        </div>
+        <div class="skills-group">
+          <h4><i class="fas fa-wrench"></i> Outils & Technologies</h4>
+          <div class="tools-grid">
+            <span class="tool"><i class="fab fa-git-alt"></i> Git</span>
+            <span class="tool"><i class="fab fa-linux"></i> Linux</span>
+            <span class="tool"><i class="fas fa-database"></i> MySQL</span>
+            <span class="tool"><i class="fab fa-github"></i> GitHub</span>
+            <span class="tool"><i class="fas fa-terminal"></i> VSCode</span>
+            <span class="tool"><i class="fas fa-network-wired"></i> Réseaux</span>
+          </div>
+        </div>
+        <div class="skills-group">
+          <h4><i class="fas fa-brain"></i> Soft Skills</h4>
+          <div class="tools-grid">
+            <span class="tool soft"><i class="fas fa-users"></i> Travail d'équipe</span>
+            <span class="tool soft"><i class="fas fa-comments"></i> Communication</span>
+            <span class="tool soft"><i class="fas fa-puzzle-piece"></i> Résolution de problèmes</span>
+            <span class="tool soft"><i class="fas fa-clock"></i> Gestion du temps</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION PROJETS -->
+  <section id="projets" class="section projects-section">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2 class="section-title">Mes <span class="accent">Projets</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="section-intro">Voici une sélection de projets que j'ai réalisés durant ma formation. Chaque projet représente un défi technique que j'ai relevé avec passion.</p>
+    <div class="filter-btns">
+      <button class="filter-btn active" data-filter="all">Tous</button>
+      <button class="filter-btn" data-filter="web">Web</button>
+      <button class="filter-btn" data-filter="desktop">Desktop</button>
+      <button class="filter-btn" data-filter="data">Base de données</button>
+      <button class="filter-btn" data-filter="IOT">IOT</button>
+    </div>
+    <div class="projects-grid" id="projectsGrid">
+
+      <!-- PROJET 1 -->
+      <div class="project-card reveal" data-category="web">
+        <div class="project-media">
+          <div class="project-placeholder"><i class="fas fa-globe"></i></div>
+          <div class="project-overlay">
+            <button class="media-btn" onclick="openModal('modal1')"><i class="fas fa-expand"></i> Voir plus</button>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tags"><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span></div>
+          <h3>Projet1</h3>
+          <p>Description</p>
+          <div class="project-links">
+            <a href="#" class="plink"><i class="fab fa-github"></i> Code</a>
+            <a href="#" class="plink plink-demo"><i class="fas fa-external-link-alt"></i> Démo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJET 2 -->
+      <div class="project-card reveal" data-category="data">
+        <div class="project-media">
+          <div class="project-placeholder"><i class="fas fa-database"></i></div>
+          <div class="project-overlay">
+            <button class="media-btn" onclick="openModal('modal2')"><i class="fas fa-expand"></i> Voir plus</button>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tags"><span class="ptag">Python</span><span class="ptag">MySQL</span></div>
+          <h3>Projet2</h3>
+          <p>Description</p>
+          <div class="project-links">
+            <a href="#" class="plink"><i class="fab fa-github"></i> Code</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJET 3 -->
+      <div class="project-card reveal" data-category="desktop">
+        <div class="project-media">
+          <div class="project-placeholder"><i class="fas fa-laptop-code"></i></div>
+          <div class="project-overlay">
+            <button class="media-btn" onclick="openModal('modal3')"><i class="fas fa-expand"></i> Voir plus</button>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tags"><span class="ptag">Java</span><span class="ptag">POO</span></div>
+          <h3>projet3</h3>
+          <p>Description</p>
+          <div class="project-links">
+            <a href="#" class="plink"><i class="fab fa-github"></i> Code</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJET IOT -->
+      <div class="project-card reveal" data-category="IOT">
+        <div class="project-media">
+          <div class="carousel" id="carouselIOT">
+            <div class="carousel-track">
+              <div class="carousel-slide">
+                <img src="iot-photo1.jpeg" alt="IOT photo 1" />
+              </div>
+              <div class="carousel-slide">
+                <img src="iot-photo2.jpeg" alt="IOT photo 2" />
+              </div>
+              <div class="carousel-slide">
+                <video controls>
+                  <source src="video-iot.mov" type="video/mp4" />
+                </video>
+              </div>
+            </div>
+            <button class="car-btn car-prev" onclick="moveCarousel('carouselIOT', -1)">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="car-btn car-next" onclick="moveCarousel('carouselIOT', 1)">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="car-dots" id="dotsIOT"></div>
+          </div>
+          <div class="project-overlay">
+            <button class="media-btn" onclick="openModal('modalIOT')">
+              <i class="fas fa-expand"></i> Voir plus
+            </button>
+          </div>
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            <span class="ptag">Arduino</span>
+            <span class="ptag">C++</span>
+          </div>
+          <h3>🌡️ Système IoT de Surveillance de Température (Edge + Cloud)</h3>
+          <p>Projet IoT intelligent basé sur l'ESP32 permettant la surveillance en temps réel de la température via une architecture Edge + Cloud.</p>
+          <div class="project-links">
+            <a href="#" class="plink"><i class="fab fa-github"></i> Code</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="modal1">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal1')"><i class="fas fa-times"></i></button>
+      <div class="modal-media">
+        <div class="modal-placeholder"><i class="fas fa-globe"></i></div>
+      </div>
+      <div class="modal-content">
+        <h3>Site Web Vitrine</h3>
+        <p>Description complète du projet, objectifs, difficultés rencontrées et solutions apportées.</p>
+        <div class="modal-tags"><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span></div>
+        <div class="project-links" style="margin-top:1rem">
+          <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
+          <a href="#" class="plink plink-demo"><i class="fas fa-external-link-alt"></i> Démo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal2">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal2')"><i class="fas fa-times"></i></button>
+      <div class="modal-media"><div class="modal-placeholder"><i class="fas fa-database"></i></div></div>
+      <div class="modal-content">
+        <h3>Gestion de Bibliothèque</h3>
+        <p>Description complète du projet, base de données, fonctionnalités principales.</p>
+        <div class="modal-tags"><span class="ptag">Python</span><span class="ptag">MySQL</span></div>
+        <div class="project-links" style="margin-top:1rem">
+          <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modal3">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal3')"><i class="fas fa-times"></i></button>
+      <div class="modal-media"><div class="modal-placeholder"><i class="fas fa-laptop-code"></i></div></div>
+      <div class="modal-content">
+        <h3>Application Desktop Java</h3>
+        <p>Description complète, architecture POO, fonctionnalités du logiciel.</p>
+        <div class="modal-tags"><span class="ptag">Java</span><span class="ptag">Swing</span></div>
+        <div class="project-links" style="margin-top:1rem">
+          <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalIOT">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modalIOT')">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="carousel modal-carousel" id="carouselIOTModal">
+        <div class="carousel-track">
+          <div class="carousel-slide">
+            <img src="iot-photo1.jpeg" alt="IOT photo 1" />
+          </div>
+          <div class="carousel-slide">
+            <img src="iot-photo2.jpeg" alt="IOT photo 2" />
+          </div>
+          <div class="carousel-slide">
+            <video controls>
+              <source src="video-iot.mov" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+        <button class="car-btn car-prev" onclick="moveCarousel('carouselIOTModal', -1)">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="car-btn car-next" onclick="moveCarousel('carouselIOTModal', 1)">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+        <div class="car-dots" id="dotsIOTModal"></div>
+      </div>
+      <div class="modal-content">
+        <h3>🌡️ Système IoT de Surveillance de Température (Edge + Cloud)</h3>
+        <p>Projet IoT intelligent basé sur l'ESP32 permettant la surveillance en temps réel de la température via une architecture Edge + Cloud. Le système collecte les données grâce à des capteurs connectés, les traite localement sur l'ESP32 puis les envoie vers le cloud pour le suivi et le stockage.
+
+Le projet intègre également une interface web embarquée permettant de visualiser les données en direct, surveiller l'état du système et recevoir des alertes en cas de dépassement de seuil critique.
+
+🔧 Technologies utilisées : ESP32, IoT, interface web embarquée, communication réseau, Edge Computing, Cloud Computing.</p>
+        <div class="modal-tags">
+          <span class="ptag">Arduino</span>
+          <span class="ptag">C++</span>
+        </div>
+        <div class="project-links" style="margin-top:1rem">
+          <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION CV -->
+  <section id="cv" class="section cv-section">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Mon <span class="accent">CV</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="section-intro">Téléchargez mon curriculum vitae pour découvrir mon parcours complet, mes compétences et mes expériences.</p>
+    <div class="cv-download-wrapper reveal">
+      <div class="cv-card">
+        <div class="cv-icon">
+          <i class="fas fa-file-pdf"></i>
+        </div>
+        <div class="cv-text">
+          <h3>Curriculum Vitae</h3>
+          <p>Abdoulie Ba — Licence Informatique Appliquée</p>
+          <span class="cv-meta">
+            <i class="fas fa-calendar-alt"></i> Mis à jour 2026 &nbsp;|&nbsp;
+            <i class="fas fa-file-alt"></i> Format PDF
+          </span>
+        </div>
+        <a href="CV_Abdoulie_Ba.pdf" download="CV_Abdoulie_Ba.pdf" class="btn btn-primary cv-btn">
+          <i class="fas fa-download"></i> Télécharger le CV
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION CONTACT -->
+  <section id="contact" class="section contact-section">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2 class="section-title">Me <span class="accent">Contacter</span></h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>Parlons de ton projet !</h3>
+        <p>Je suis disponible pour des stages, des projets collaboratifs, ou simplement pour échanger sur l'informatique. N'hésite pas à me contacter.</p>
+        <div class="contact-items">
+          <a href="mailto:ba.abdoulie@uam.edu.sn" class="contact-item">
+            <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+            <div class="ci-text"><span>Email</span><strong>ba.abdoulie@uam.edu.sn</strong></div>
+          </a>
+          <a href="tel:+221771107964" class="contact-item">
+            <div class="ci-icon"><i class="fas fa-phone"></i></div>
+            <div class="ci-text"><span>Téléphone</span><strong>+221771107964</strong></div>
+          </a>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="ci-text"><span>Localisation</span><strong>Dakar et Saly, Sénégal</strong></div>
+          </div>
+        </div>
+        <div class="contact-socials">
+          <a href="https://github.com/Abdoulie04/Abdoulie.git" class="social-link"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/abdoulie-ba-b39453341/" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.tiktok.com/@abdoulie__ba?_r=1&_t=ZS-96o8Ai5f8Bs" class="social-link"><i class="fab fa-tiktok"></i></a>
+          <a href="mailto:ba.abdoulie@uam.edu.sn" class="social-link" title="Email" target="_blank"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+      <form class="contact-form reveal" id="contactForm">
+        <div class="form-group">
+          <label for="name">Prenom et Nom</label>
+          <input type="text" id="name" placeholder="Votre Prenom et Nom" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="votre@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="sujet">Sujet</label>
+          <input type="text" id="sujet" placeholder="Ex: Proposition de stage" required />
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" rows="5" placeholder="Votre message ici..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">
+          <i class="fas fa-paper-plane"></i> Envoyer le message
+        </button>
+        <div class="form-success" id="formSuccess">
+          <i class="fas fa-check-circle"></i> Message envoyé avec succès !
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="nav-logo">
+        <span class="logo-bracket">&lt;</span>
+        <span class="logo-name">Ba</span>
+        <span class="logo-bracket">/&gt;</span>
+      </div>
+      <p>© 2026 Abdoulie Ba — Étudiant en Licence Informatique Appliquée</p>
+      <p class="footer-made">Fait avec <i class="fas fa-heart" style="color:var(--accent)"></i> et beaucoup de café ☕</p>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" onclick="scrollToSection('accueil')" title="Haut de page">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
