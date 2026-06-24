@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard Admin</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#0f0f0f; color:#fff; margin:0; padding:2rem; }
+    h1 { color:#6c5ce7; }
+    .top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; }
+    button { padding:8px 14px; background:#6c5ce7; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+    button:hover { background:#5a4bd1; }
+    .btn-danger { background:#e74c3c; }
+    .btn-danger:hover { background:#c0392b; }
+    .form-box { background:#1a1a1a; padding:1.5rem; border-radius:10px; margin-bottom:2rem; max-width:500px; }
+    input, textarea, select { width:100%; padding:8px; margin:6px 0; border-radius:6px; border:1px solid #333; background:#222; color:#fff; box-sizing:border-box; }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    th, td { border:1px solid #333; padding:10px; text-align:left; }
+    th { background:#1a1a1a; }
+    .actions button { margin-right:6px; }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <h1>Dashboard Admin</h1>
+    <button onclick="logout()">Déconnexion</button>
+  </div>
+
+  <div style="margin-bottom:1.5rem;">
+    <button onclick="showTab('projets')" id="tabProjetsBtn" style="background:#6c5ce7;">Projets</button>
+    <button onclick="showTab('messages')" id="tabMessagesBtn" style="background:#555;">Messages <span id="msgCount" style="background:#e74c3c; border-radius:50%; padding:2px 7px; font-size:0.75rem; margin-left:4px;"></span></button>
+    <button onclick="showTab('competences')" id="tabCompetencesBtn" style="background:#555;">Compétences</button>
+    <button onclick="showTab('parcours')" id="tabParcoursBtn" style="background:#555;">Parcours</button>
+  </div>
+
+  <!-- ONGLET PROJETS -->
+  <div id="tabProjets">
+    <div class="form-box">
+      <h3 id="formTitle">Ajouter un projet</h3>
+      <input type="hidden" id="projetId" />
+      <input type="text" id="titre" placeholder="Titre du projet" />
+      <textarea id="description" placeholder="Description" rows="3"></textarea>
+      <input type="text" id="technologies" placeholder="Technologies (ex: HTML, CSS)" />
+      <select id="categorie">
+        <option value="web">Web</option>
+        <option value="desktop">Desktop</option>
+        <option value="data">Base de données</option>
+        <option value="IOT">IOT</option>
+      </select>
+      <input type="text" id="lien_github" placeholder="Lien GitHub" />
+      <input type="text" id="lien_demo" placeholder="Lien Démo (optionnel)" />
+      <input type="text" id="image" placeholder="Nom de l'image (ex: projet1.jpg)" />
+      <button onclick="saveProjet()">Enregistrer</button>
+      <button onclick="resetForm()" style="background:#555;">Annuler</button>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Titre</th><th>Technologies</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="projetsTable"></tbody>
+    </table>
+  </div>
+
+  <!-- ONGLET MESSAGES -->
+  <div id="tabMessages" style="display:none;">
+    <table>
+      <thead>
+        <tr><th>Nom</th><th>Email</th><th>Sujet</th><th>Message</th><th>Date</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="messagesTable"></tbody>
+    </table>
+  </div>
+
+  <!-- ONGLET COMPÉTENCES -->
+  <div id="tabCompetences" style="display:none;">
+    <div class="form-box">
+      <h3 id="formTitleComp">Ajouter une compétence</h3>
+      <input type="hidden" id="competenceId" />
+      <input type="text" id="compNom" placeholder="Nom (ex: Python)" />
+      <input type="number" id="compNiveau" placeholder="Niveau en % (ex: 80)" min="0" max="100" />
+      <button onclick="saveCompetence()">Enregistrer</button>
+      <button onclick="resetFormComp()" style="background:#555;">Annuler</button>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Nom</th><th>Niveau</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="competencesTable"></tbody>
+    </table>
+  </div>
+
+  <!-- ONGLET PARCOURS -->
+  <div id="tabParcours" style="display:none;">
+    <div class="form-box">
+      <h3 id="formTitleExp">Ajouter une étape du parcours</h3>
+      <input type="hidden" id="experienceId" />
+      <input type="text" id="expAnnee" placeholder="Année (ex: 2026)" />
+      <input type="text" id="expTitre" placeholder="Titre (ex: Licence 3 — Informatique Appliquée)" />
+      <input type="text" id="expEtablissement" placeholder="Établissement" />
+      <input type="number" id="expOrdre" placeholder="Ordre d'affichage (ex: 1, 2, 3...)" />
+      <button onclick="saveExperience()">Enregistrer</button>
+      <button onclick="resetFormExp()" style="background:#555;">Annuler</button>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Année</th><th>Titre</th><th>Établissement</th><th>Ordre</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="experiencesTable"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:5000";
+
+    function showTab(tab) {
+      document.getElementById('tabProjets').style.display = tab === 'projets' ? 'block' : 'none';
+      document.getElementById('tabMessages').style.display = tab === 'messages' ? 'block' : 'none';
+      document.getElementById('tabCompetences').style.display = tab === 'competences' ? 'block' : 'none';
+      document.getElementById('tabParcours').style.display = tab === 'parcours' ? 'block' : 'none';
+
+      document.getElementById('tabProjetsBtn').style.background = tab === 'projets' ? '#6c5ce7' : '#555';
+      document.getElementById('tabMessagesBtn').style.background = tab === 'messages' ? '#6c5ce7' : '#555';
+      document.getElementById('tabCompetencesBtn').style.background = tab === 'competences' ? '#6c5ce7' : '#555';
+      document.getElementById('tabParcoursBtn').style.background = tab === 'parcours' ? '#6c5ce7' : '#555';
+
+      if (tab === 'messages') loadMessages();
+      if (tab === 'competences') loadCompetences();
+      if (tab === 'parcours') loadExperiences();
+    }
+
+    /* ---------- AUTH ---------- */
+    async function checkAuth() {
+      const res = await fetch(`${API_URL}/api/auth/check`, { credentials: 'include' });
+      const data = await res.json();
+      if (!data.connecte) {
+        window.location.href = 'login.html';
+      }
+    }
+
+    async function logout() {
+      await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
+      window.location.href = 'login.html';
+    }
+
+    /* ---------- PROJETS ---------- */
+    async function loadProjets() {
+      const res = await fetch(`${API_URL}/api/projets`);
+      const projets = await res.json();
+      const tbody = document.getElementById('projetsTable');
+      tbody.innerHTML = '';
+      projets.forEach(p => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.titre}</td>
+            <td>${p.technologies || ''}</td>
+            <td class="actions">
+              <button onclick='editProjet(${JSON.stringify(p)})'>Modifier</button>
+              <button class="btn-danger" onclick="deleteProjet(${p.id})">Supprimer</button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    async function saveProjet() {
+      const id = document.getElementById('projetId').value;
+      const body = {
+        titre: document.getElementById('titre').value,
+        description: document.getElementById('description').value,
+        technologies: document.getElementById('technologies').value,
+        categorie: document.getElementById('categorie').value,
+        lien_github: document.getElementById('lien_github').value,
+        lien_demo: document.getElementById('lien_demo').value,
+        image: document.getElementById('image').value
+      };
+
+      const url = id ? `${API_URL}/api/projets/${id}` : `${API_URL}/api/projets`;
+      const method = id ? 'PUT' : 'POST';
+
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      });
+
+      resetForm();
+      loadProjets();
+    }
+
+    function editProjet(p) {
+      document.getElementById('projetId').value = p.id;
+      document.getElementById('titre').value = p.titre;
+      document.getElementById('description').value = p.description || '';
+      document.getElementById('technologies').value = p.technologies || '';
+      document.getElementById('categorie').value = p.categorie || 'web';
+      document.getElementById('lien_github').value = p.lien_github || '';
+      document.getElementById('lien_demo').value = p.lien_demo || '';
+      document.getElementById('image').value = p.image || '';
+      document.getElementById('formTitle').textContent = 'Modifier le projet';
+    }
+
+    async function deleteProjet(id) {
+      if (!confirm('Supprimer ce projet ?')) return;
+      await fetch(`${API_URL}/api/projets/${id}`, { method: 'DELETE', credentials: 'include' });
+      loadProjets();
+    }
+
+    function resetForm() {
+      document.getElementById('projetId').value = '';
+      document.getElementById('titre').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('technologies').value = '';
+      document.getElementById('categorie').value = 'web';
+      document.getElementById('lien_github').value = '';
+      document.getElementById('lien_demo').value = '';
+      document.getElementById('image').value = '';
+      document.getElementById('formTitle').textContent = 'Ajouter un projet';
+    }
+
+    /* ---------- MESSAGES ---------- */
+    async function loadMessages() {
+      const res = await fetch(`${API_URL}/api/messages`, { credentials: 'include' });
+      const messages = await res.json();
+      const tbody = document.getElementById('messagesTable');
+      tbody.innerHTML = '';
+
+      const nonLus = messages.filter(m => !m.lu).length;
+      const countEl = document.getElementById('msgCount');
+      countEl.textContent = nonLus > 0 ? nonLus : '';
+      countEl.style.display = nonLus > 0 ? 'inline' : 'none';
+
+      messages.forEach(m => {
+        tbody.innerHTML += `
+          <tr style="${m.lu ? '' : 'font-weight:bold;'}">
+            <td>${m.nom}</td>
+            <td>${m.email}</td>
+            <td>${m.sujet || ''}</td>
+            <td style="max-width:250px;">${m.message}</td>
+            <td>${new Date(m.date_envoi).toLocaleDateString('fr-FR')}</td>
+            <td class="actions">
+              ${!m.lu ? `<button onclick="marquerLu(${m.id})">Marquer lu</button>` : ''}
+              <button class="btn-danger" onclick="deleteMessage(${m.id})">Supprimer</button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    async function marquerLu(id) {
+      await fetch(`${API_URL}/api/messages/${id}/lu`, { method: 'PUT', credentials: 'include' });
+      loadMessages();
+    }
+
+    async function deleteMessage(id) {
+      if (!confirm('Supprimer ce message ?')) return;
+      await fetch(`${API_URL}/api/messages/${id}`, { method: 'DELETE', credentials: 'include' });
+      loadMessages();
+    }
+
+    /* ---------- COMPÉTENCES ---------- */
+    async function loadCompetences() {
+      const res = await fetch(`${API_URL}/api/competences`);
+      const competences = await res.json();
+      const tbody = document.getElementById('competencesTable');
+      tbody.innerHTML = '';
+      competences.forEach(c => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${c.nom}</td>
+            <td>${c.niveau}%</td>
+            <td class="actions">
+              <button onclick='editCompetence(${JSON.stringify(c)})'>Modifier</button>
+              <button class="btn-danger" onclick="deleteCompetence(${c.id})">Supprimer</button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    async function saveCompetence() {
+      const id = document.getElementById('competenceId').value;
+      const body = {
+        nom: document.getElementById('compNom').value,
+        niveau: document.getElementById('compNiveau').value
+      };
+
+      const url = id ? `${API_URL}/api/competences/${id}` : `${API_URL}/api/competences`;
+      const method = id ? 'PUT' : 'POST';
+
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      });
+
+      resetFormComp();
+      loadCompetences();
+    }
+
+    function editCompetence(c) {
+      document.getElementById('competenceId').value = c.id;
+      document.getElementById('compNom').value = c.nom;
+      document.getElementById('compNiveau').value = c.niveau;
+      document.getElementById('formTitleComp').textContent = 'Modifier la compétence';
+    }
+
+    async function deleteCompetence(id) {
+      if (!confirm('Supprimer cette compétence ?')) return;
+      await fetch(`${API_URL}/api/competences/${id}`, { method: 'DELETE', credentials: 'include' });
+      loadCompetences();
+    }
+
+    function resetFormComp() {
+      document.getElementById('competenceId').value = '';
+      document.getElementById('compNom').value = '';
+      document.getElementById('compNiveau').value = '';
+      document.getElementById('formTitleComp').textContent = 'Ajouter une compétence';
+    }
+
+    /* ---------- PARCOURS / EXPÉRIENCES ---------- */
+    async function loadExperiences() {
+      const res = await fetch(`${API_URL}/api/experiences`);
+      const experiences = await res.json();
+      const tbody = document.getElementById('experiencesTable');
+      tbody.innerHTML = '';
+      experiences.forEach(e => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${e.annee || ''}</td>
+            <td>${e.titre}</td>
+            <td>${e.etablissement || ''}</td>
+            <td>${e.ordre}</td>
+            <td class="actions">
+              <button onclick='editExperience(${JSON.stringify(e)})'>Modifier</button>
+              <button class="btn-danger" onclick="deleteExperience(${e.id})">Supprimer</button>
+            </td>
+          </tr>`;
+      });
+    }
+
+    async function saveExperience() {
+      const id = document.getElementById('experienceId').value;
+      const body = {
+        annee: document.getElementById('expAnnee').value,
+        titre: document.getElementById('expTitre').value,
+        etablissement: document.getElementById('expEtablissement').value,
+        ordre: document.getElementById('expOrdre').value
+      };
+
+      const url = id ? `${API_URL}/api/experiences/${id}` : `${API_URL}/api/experiences`;
+      const method = id ? 'PUT' : 'POST';
+
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      });
+
+      resetFormExp();
+      loadExperiences();
+    }
+
+    function editExperience(e) {
+      document.getElementById('experienceId').value = e.id;
+      document.getElementById('expAnnee').value = e.annee || '';
+      document.getElementById('expTitre').value = e.titre;
+      document.getElementById('expEtablissement').value = e.etablissement || '';
+      document.getElementById('expOrdre').value = e.ordre;
+      document.getElementById('formTitleExp').textContent = 'Modifier cette étape';
+    }
+
+    async function deleteExperience(id) {
+      if (!confirm('Supprimer cette étape du parcours ?')) return;
+      await fetch(`${API_URL}/api/experiences/${id}`, { method: 'DELETE', credentials: 'include' });
+      loadExperiences();
+    }
+
+    function resetFormExp() {
+      document.getElementById('experienceId').value = '';
+      document.getElementById('expAnnee').value = '';
+      document.getElementById('expTitre').value = '';
+      document.getElementById('expEtablissement').value = '';
+      document.getElementById('expOrdre').value = '';
+      document.getElementById('formTitleExp').textContent = 'Ajouter une étape du parcours';
+    }
+
+    /* ---------- INIT ---------- */
+    checkAuth();
+    loadProjets();
+  </script>
+</body>
+</html>

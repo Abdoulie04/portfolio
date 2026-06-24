@@ -113,55 +113,8 @@
       <div class="about-card card-parcours reveal">
         <div class="card-icon"><i class="fas fa-road"></i></div>
         <h3>Mon Parcours</h3>
-        <div class="timeline">
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <span class="tl-date">2026</span>
-              <strong>Licence 3 — Informatique Appliquée (En cours)</strong>
-              <p>Université Amadou Mahtar Mbow (UAM), Sénégal</p>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <span class="tl-date">2025</span>
-              <strong>Licence 2 — Mathématiques, Physique & Informatique</strong>
-              <p>Université Amadou Mahtar Mbow (UAM), Sénégal</p>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <span class="tl-date">2025</span>
-              <strong>Certification Numérique</strong>
-              <p>Orange Digital Center — Sénégal</p>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <span class="tl-date">2024</span>
-              <strong>Licence 1 — Mathématiques, Physique & Informatique</strong>
-              <p>Université Amadou Mahtar Mbow (UAM), Sénégal</p>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <span class="tl-date">2023</span>
-              <strong>Baccalauréat Série S2</strong>
-              <p>Groupe Scolaire Étienne et Monique de Mbour</p>
-            </div>
-          </div>
-          <div class="tl-item">
-            <div class="tl-dot"></div>
-            <div class="tl-content">
-              <span class="tl-date">2020</span>
-              <strong>BFEM</strong>
-              <p>Groupe Scolaire Étienne et Monique de Mbour</p>
-            </div>
-          </div>
+        <div class="timeline" id="timelineContainer">
+          <!-- Le parcours sera chargé dynamiquement depuis la base de données -->
         </div>
       </div>
 
@@ -182,18 +135,8 @@
         <h3>Mes Compétences</h3>
         <div class="skills-group">
           <h4><i class="fas fa-code"></i> Domaines</h4>
-          <div class="skill-bars">
-            <div class="skill-bar"><span>Python</span><div class="bar"><div class="fill" style="--w:80%">80%</div></div></div>
-            <div class="skill-bar"><span>HTML / CSS</span><div class="bar"><div class="fill" style="--w:85%">85%</div></div></div>
-            <div class="skill-bar"><span>JavaScript</span><div class="bar"><div class="fill" style="--w:80%">80%</div></div></div>
-            <div class="skill-bar"><span>Java</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
-            <div class="skill-bar"><span>SQL</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
-            <div class="skill-bar"><span>Internet des objets</span><div class="bar"><div class="fill" style="--w:80%">80%</div></div></div>
-            <div class="skill-bar"><span>Analyse de données</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
-            <div class="skill-bar"><span>Data science</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
-            <div class="skill-bar"><span>Recherche operationnelle</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
-            <div class="skill-bar"><span>UML</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
-            <div class="skill-bar"><span>Langage C</span><div class="bar"><div class="fill" style="--w:75%">75%</div></div></div>
+          <div class="skill-bars" id="skillBarsContainer">
+            <!-- Les compétences seront chargées dynamiquement depuis la base de données -->
           </div>
         </div>
         <div class="skills-group">
@@ -237,61 +180,6 @@
       <button class="filter-btn" data-filter="IOT">IOT</button>
     </div>
     <div class="projects-grid" id="projectsGrid">
-
-      <!-- PROJET 1 -->
-      <div class="project-card reveal" data-category="web">
-        <div class="project-media">
-          <div class="project-placeholder"><i class="fas fa-globe"></i></div>
-          <div class="project-overlay">
-            <button class="media-btn" onclick="openModal('modal1')"><i class="fas fa-expand"></i> Voir plus</button>
-          </div>
-        </div>
-        <div class="project-info">
-          <div class="project-tags"><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span></div>
-          <h3>Projet1</h3>
-          <p>Description</p>
-          <div class="project-links">
-            <a href="#" class="plink"><i class="fab fa-github"></i> Code</a>
-            <a href="#" class="plink plink-demo"><i class="fas fa-external-link-alt"></i> Démo</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- PROJET 2 -->
-      <div class="project-card reveal" data-category="data">
-        <div class="project-media">
-          <div class="project-placeholder"><i class="fas fa-database"></i></div>
-          <div class="project-overlay">
-            <button class="media-btn" onclick="openModal('modal2')"><i class="fas fa-expand"></i> Voir plus</button>
-          </div>
-        </div>
-        <div class="project-info">
-          <div class="project-tags"><span class="ptag">Python</span><span class="ptag">MySQL</span></div>
-          <h3>Projet2</h3>
-          <p>Description</p>
-          <div class="project-links">
-            <a href="#" class="plink"><i class="fab fa-github"></i> Code</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- PROJET 3 -->
-      <div class="project-card reveal" data-category="desktop">
-        <div class="project-media">
-          <div class="project-placeholder"><i class="fas fa-laptop-code"></i></div>
-          <div class="project-overlay">
-            <button class="media-btn" onclick="openModal('modal3')"><i class="fas fa-expand"></i> Voir plus</button>
-          </div>
-        </div>
-        <div class="project-info">
-          <div class="project-tags"><span class="ptag">Java</span><span class="ptag">POO</span></div>
-          <h3>projet3</h3>
-          <p>Description</p>
-          <div class="project-links">
-            <a href="#" class="plink"><i class="fab fa-github"></i> Code</a>
-          </div>
-        </div>
-      </div>
 
       <!-- PROJET IOT -->
       <div class="project-card reveal" data-category="IOT">
@@ -337,58 +225,12 @@
         </div>
       </div>
 
+      <!-- Les projets dynamiques de la base de données seront insérés ici par JavaScript -->
+
     </div>
   </section>
 
   <!-- MODALS -->
-  <div class="modal-overlay" id="modal1">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeModal('modal1')"><i class="fas fa-times"></i></button>
-      <div class="modal-media">
-        <div class="modal-placeholder"><i class="fas fa-globe"></i></div>
-      </div>
-      <div class="modal-content">
-        <h3>Site Web Vitrine</h3>
-        <p>Description complète du projet, objectifs, difficultés rencontrées et solutions apportées.</p>
-        <div class="modal-tags"><span class="ptag">HTML</span><span class="ptag">CSS</span><span class="ptag">JavaScript</span></div>
-        <div class="project-links" style="margin-top:1rem">
-          <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
-          <a href="#" class="plink plink-demo"><i class="fas fa-external-link-alt"></i> Démo</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal2">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeModal('modal2')"><i class="fas fa-times"></i></button>
-      <div class="modal-media"><div class="modal-placeholder"><i class="fas fa-database"></i></div></div>
-      <div class="modal-content">
-        <h3>Gestion de Bibliothèque</h3>
-        <p>Description complète du projet, base de données, fonctionnalités principales.</p>
-        <div class="modal-tags"><span class="ptag">Python</span><span class="ptag">MySQL</span></div>
-        <div class="project-links" style="margin-top:1rem">
-          <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal3">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeModal('modal3')"><i class="fas fa-times"></i></button>
-      <div class="modal-media"><div class="modal-placeholder"><i class="fas fa-laptop-code"></i></div></div>
-      <div class="modal-content">
-        <h3>Application Desktop Java</h3>
-        <p>Description complète, architecture POO, fonctionnalités du logiciel.</p>
-        <div class="modal-tags"><span class="ptag">Java</span><span class="ptag">Swing</span></div>
-        <div class="project-links" style="margin-top:1rem">
-          <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div class="modal-overlay" id="modalIOT">
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal('modalIOT')">
@@ -430,6 +272,20 @@ Le projet intègre également une interface web embarquée permettant de visuali
         <div class="project-links" style="margin-top:1rem">
           <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL GÉNÉRIQUE pour projets dynamiques -->
+  <div class="modal-overlay" id="modalDynamic">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modalDynamic')"><i class="fas fa-times"></i></button>
+      <div class="modal-media"><div class="modal-placeholder" id="modalDynamicIcon"><i class="fas fa-code"></i></div></div>
+      <div class="modal-content">
+        <h3 id="modalDynamicTitre"></h3>
+        <p id="modalDynamicDesc"></p>
+        <div class="modal-tags" id="modalDynamicTags"></div>
+        <div class="project-links" id="modalDynamicLinks" style="margin-top:1rem"></div>
       </div>
     </div>
   </div>
@@ -538,6 +394,157 @@ Le projet intègre également une interface web embarquée permettant de visuali
     <i class="fas fa-arrow-up"></i>
   </button>
 
+  <script>
+    const API_URL = "http://localhost:5000";
+    let projetsData = [];
+
+    async function loadProjetsDynamiques() {
+      try {
+        const res = await fetch(`${API_URL}/api/projets`);
+        projetsData = await res.json();
+        const grid = document.getElementById('projectsGrid');
+
+        projetsData.forEach((p, index) => {
+          const card = document.createElement('div');
+          card.className = 'project-card reveal active';
+          card.style.opacity = '1';
+          card.style.transform = 'none';
+          card.setAttribute('data-category', p.categorie || 'web');
+
+          const techTags = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
+          const demoLink = p.lien_demo ? `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Démo</a>` : '';
+
+          card.innerHTML = `
+            <div class="project-media">
+              ${p.image ? `<img src="${p.image}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;">` : `<div class="project-placeholder"><i class="fas fa-code"></i></div>`}
+              <div class="project-overlay">
+                <button class="media-btn" onclick="openModalDynamic(${index})"><i class="fas fa-expand"></i> Voir plus</button>
+              </div>
+            </div>
+            <div class="project-info">
+              <div class="project-tags">${techTags}</div>
+              <h3>${p.titre}</h3>
+              <p>${(p.description || '').substring(0, 100)}${p.description && p.description.length > 100 ? '...' : ''}</p>
+              <div class="project-links">
+                ${p.lien_github ? `<a href="${p.lien_github}" class="plink" target="_blank"><i class="fab fa-github"></i> Code</a>` : ''}
+                ${demoLink}
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Erreur chargement projets :', err);
+      }
+    }
+
+    function openModalDynamic(index) {
+      const p = projetsData[index];
+      document.getElementById('modalDynamicTitre').textContent = p.titre;
+      document.getElementById('modalDynamicDesc').textContent = p.description || '';
+      const tags = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
+      document.getElementById('modalDynamicTags').innerHTML = tags;
+
+      let links = '';
+      if (p.lien_github) links += `<a href="${p.lien_github}" class="plink" target="_blank"><i class="fab fa-github"></i> Voir sur GitHub</a>`;
+      if (p.lien_demo) links += `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Démo</a>`;
+      document.getElementById('modalDynamicLinks').innerHTML = links;
+
+      openModal('modalDynamic');
+    }
+
+    function initContactForm() {
+      const contactForm = document.getElementById('contactForm');
+      if (!contactForm) {
+        console.warn('contactForm introuvable, formulaire non initialisé');
+        return;
+      }
+      contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const nom = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const sujet = document.getElementById('sujet').value;
+        const message = document.getElementById('message').value;
+
+        try {
+          const res = await fetch(`${API_URL}/api/messages`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nom, email, sujet, message })
+          });
+
+          if (res.ok) {
+            document.getElementById('formSuccess').style.display = 'block';
+            contactForm.reset();
+            setTimeout(() => {
+              document.getElementById('formSuccess').style.display = 'none';
+            }, 4000);
+          } else {
+            alert('Erreur lors de l\'envoi du message. Réessaie.');
+          }
+        } catch (err) {
+          console.error('Erreur envoi message :', err);
+          alert('Impossible de contacter le serveur.');
+        }
+      });
+    }
+
+    /* ---------- COMPÉTENCES DYNAMIQUES ---------- */
+    async function loadCompetencesDynamiques() {
+      try {
+        const res = await fetch(`${API_URL}/api/competences`);
+        const competences = await res.json();
+        const container = document.getElementById('skillBarsContainer');
+        if (!container) return;
+        container.innerHTML = '';
+
+        competences.forEach(c => {
+          const div = document.createElement('div');
+          div.className = 'skill-bar';
+          div.innerHTML = `
+            <span>${c.nom}</span>
+            <div class="bar"><div class="fill" style="--w:${c.niveau}%; width:${c.niveau}%;">${c.niveau}%</div></div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error('Erreur chargement compétences :', err);
+      }
+    }
+
+    /* ---------- PARCOURS DYNAMIQUE ---------- */
+    async function loadParcoursDynamique() {
+      try {
+        const res = await fetch(`${API_URL}/api/experiences`);
+        const experiences = await res.json();
+        const container = document.getElementById('timelineContainer');
+        if (!container) return;
+        container.innerHTML = '';
+
+        experiences.forEach(e => {
+          const div = document.createElement('div');
+          div.className = 'tl-item';
+          div.innerHTML = `
+            <div class="tl-dot"></div>
+            <div class="tl-content">
+              <span class="tl-date">${e.annee || ''}</span>
+              <strong>${e.titre}</strong>
+              <p>${e.etablissement || ''}</p>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error('Erreur chargement parcours :', err);
+      }
+    }
+
+    loadProjetsDynamiques();
+    loadCompetencesDynamiques();
+    loadParcoursDynamique();
+    initContactForm();
+  </script>
   <script src="script.js"></script>
 </body>
 </html>

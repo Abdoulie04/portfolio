@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Connexion Admin</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#0f0f0f; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
+    .box { background:#1a1a1a; padding:2rem; border-radius:10px; width:320px; }
+    h2 { color:#fff; text-align:center; }
+    input { width:100%; padding:10px; margin:8px 0; border-radius:6px; border:1px solid #333; background:#222; color:#fff; box-sizing:border-box; }
+    button { width:100%; padding:10px; background:#6c5ce7; color:#fff; border:none; border-radius:6px; cursor:pointer; margin-top:10px; }
+    button:hover { background:#5a4bd1; }
+    #error { color:#ff4d4d; text-align:center; margin-top:10px; font-size:0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Connexion Admin</h2>
+    <input type="text" id="username" placeholder="Identifiant" />
+    <input type="password" id="password" placeholder="Mot de passe" />
+    <button onclick="login()">Se connecter</button>
+    <p id="error"></p>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:5000";
+
+    async function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error');
+
+      try {
+        const res = await fetch(`${API_URL}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          window.location.href = 'dashboard.html';
+        } else {
+          errorEl.textContent = data.error || 'Erreur de connexion';
+        }
+      } catch (err) {
+        errorEl.textContent = 'Impossible de contacter le serveur';
+      }
+    }
+  </script>
+</body>
+</html>
