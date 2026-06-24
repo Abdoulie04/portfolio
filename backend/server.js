@@ -4,14 +4,16 @@ const mysql = require('mysql2');
 const cors = require('cors');
 const session = require('express-session');
 const path = require('path');
+
+console.log('DEBUG SESSION_SECRET existe ?', !!process.env.SESSION_SECRET);
+console.log('DEBUG toutes les variables liées:', Object.keys(process.env).filter(k => k.includes('SESSION') || k.includes('DB_')));
+
 const authRoutes = require('./routes/auth');
 const projetsRoutes = require('./routes/projets');
 const messagesRoutes = require('./routes/messages');
 const competencesRoutes = require('./routes/competences');
 const experiencesRoutes = require('./routes/experiences');
-
 const app = express();
-
 // Connexion MySQL
 const db = mysql.createPool({
   host: process.env.DB_HOST,
@@ -23,7 +25,6 @@ const db = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0
 });
-
 db.getConnection((err, connection) => {
   if (err) {
     console.error('Erreur de connexion à MySQL :', err.message);
@@ -41,7 +42,6 @@ app.use(session({
   saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 * 60 * 2, sameSite: 'lax', secure: false }
 }));
-
 // Rendre db accessible dans les routes
 app.use((req, res, next) => {
   req.db = db;
@@ -56,7 +56,6 @@ app.use('/api/experiences', experiencesRoutes);
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Le serveur fonctionne !' });
 });
-
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
