@@ -1,4 +1,5 @@
-const API_URL = "https://portfolio-production-4aae.up.railway.app";
+/* ── 1. THÈME CLAIR / SOMBRE ── */
+const themeToggle = document.getElementById('themeToggle');
 
 /* ── 1. THÈME CLAIR / SOMBRE ── */
 const themeToggle = document.getElementById('themeToggle');
