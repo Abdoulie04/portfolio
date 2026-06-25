@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-// Connexion
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
   const db = req.db;
@@ -17,28 +16,28 @@ router.post('/login', (req, res) => {
       if (!match) return res.status(401).json({ error: 'Identifiants incorrects' });
 
       const token = jwt.sign(
-        { username: admin.username },
+        { id: admin.id, username: admin.username },
         process.env.SESSION_SECRET,
-        { expiresIn: '24h' }
+        { expiresIn: '2h' }
       );
-      res.json({ message: 'Connecté avec succès', token, username: admin.username });
+      res.json({ message: 'Connecté avec succès', username: admin.username, token });
     });
   });
 });
 
-// Vérifier si connecté
 router.get('/check', (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.json({ connecte: false });
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.json({ connecte: false });
+
+  const token = authHeader.split(' ')[1];
   try {
     const decoded = jwt.verify(token, process.env.SESSION_SECRET);
     res.json({ connecte: true, username: decoded.username });
-  } catch {
+  } catch (err) {
     res.json({ connecte: false });
   }
 });
 
-// Déconnexion
 router.post('/logout', (req, res) => {
   res.json({ message: 'Déconnecté' });
 });

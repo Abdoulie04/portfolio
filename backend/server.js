@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
-const session = require('express-session');
 const path = require('path');
 
 const authRoutes = require('./routes/auth');
@@ -41,12 +40,6 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 2, sameSite: 'none', secure: true }
-}));
 
 // Rendre db accessible dans les routes
 app.use((req, res, next) => {
