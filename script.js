@@ -1,5 +1,4 @@
-/* ── 1. THÈME CLAIR / SOMBRE ── */
-const themeToggle = document.getElementById('themeToggle');
+
 
 /* ── 1. THÈME CLAIR / SOMBRE ── */
 const themeToggle = document.getElementById('themeToggle');
