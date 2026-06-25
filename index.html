@@ -113,9 +113,7 @@
       <div class="about-card card-parcours reveal">
         <div class="card-icon"><i class="fas fa-road"></i></div>
         <h3>Mon Parcours</h3>
-        <div class="timeline" id="timelineContainer">
-          <!-- Le parcours sera chargé dynamiquement depuis la base de données -->
-        </div>
+        <div class="timeline" id="timelineContainer"></div>
       </div>
 
       <div class="about-card card-motivations reveal">
@@ -135,9 +133,7 @@
         <h3>Mes Compétences</h3>
         <div class="skills-group">
           <h4><i class="fas fa-code"></i> Domaines</h4>
-          <div class="skill-bars" id="skillBarsContainer">
-            <!-- Les compétences seront chargées dynamiquement depuis la base de données -->
-          </div>
+          <div class="skill-bars" id="skillBarsContainer"></div>
         </div>
         <div class="skills-group">
           <h4><i class="fas fa-wrench"></i> Outils & Technologies</h4>
@@ -180,103 +176,59 @@
       <button class="filter-btn" data-filter="IOT">IOT</button>
     </div>
     <div class="projects-grid" id="projectsGrid">
-
-      <!-- PROJET IOT -->
+      <!-- PROJET IOT statique -->
       <div class="project-card reveal" data-category="IOT">
         <div class="project-media">
           <div class="carousel" id="carouselIOT">
             <div class="carousel-track">
+              <div class="carousel-slide"><img src="iot-photo1.jpeg" alt="IOT photo 1" /></div>
+              <div class="carousel-slide"><img src="iot-photo2.jpeg" alt="IOT photo 2" /></div>
               <div class="carousel-slide">
-                <img src="iot-photo1.jpeg" alt="IOT photo 1" />
-              </div>
-              <div class="carousel-slide">
-                <img src="iot-photo2.jpeg" alt="IOT photo 2" />
-              </div>
-              <div class="carousel-slide">
-                <video controls>
-                  <source src="video-iot.mov" type="video/mp4" />
-                </video>
+                <video controls><source src="video-iot.mov" type="video/mp4" /></video>
               </div>
             </div>
-            <button class="car-btn car-prev" onclick="moveCarousel('carouselIOT', -1)">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-            <button class="car-btn car-next" onclick="moveCarousel('carouselIOT', 1)">
-              <i class="fas fa-chevron-right"></i>
-            </button>
+            <button class="car-btn car-prev" onclick="moveCarousel('carouselIOT', -1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="car-btn car-next" onclick="moveCarousel('carouselIOT', 1)"><i class="fas fa-chevron-right"></i></button>
             <div class="car-dots" id="dotsIOT"></div>
           </div>
           <div class="project-overlay">
-            <button class="media-btn" onclick="openModal('modalIOT')">
-              <i class="fas fa-expand"></i> Voir plus
-            </button>
+            <button class="media-btn" onclick="openModal('modalIOT')"><i class="fas fa-expand"></i> Voir plus</button>
           </div>
         </div>
         <div class="project-info">
-          <div class="project-tags">
-            <span class="ptag">Arduino</span>
-            <span class="ptag">C++</span>
-          </div>
+          <div class="project-tags"><span class="ptag">Arduino</span><span class="ptag">C++</span></div>
           <h3>🌡️ Système IoT de Surveillance de Température (Edge + Cloud)</h3>
           <p>Projet IoT intelligent basé sur l'ESP32 permettant la surveillance en temps réel de la température via une architecture Edge + Cloud.</p>
-          <div class="project-links">
-            <a href="#" class="plink"><i class="fab fa-github"></i> Code</a>
-          </div>
+          <div class="project-links"><a href="#" class="plink"><i class="fab fa-github"></i> Code</a></div>
         </div>
       </div>
-
-      <!-- Les projets dynamiques de la base de données seront insérés ici par JavaScript -->
-
     </div>
   </section>
 
-  <!-- MODALS -->
+  <!-- MODAL IOT -->
   <div class="modal-overlay" id="modalIOT">
     <div class="modal-box">
-      <button class="modal-close" onclick="closeModal('modalIOT')">
-        <i class="fas fa-times"></i>
-      </button>
+      <button class="modal-close" onclick="closeModal('modalIOT')"><i class="fas fa-times"></i></button>
       <div class="carousel modal-carousel" id="carouselIOTModal">
         <div class="carousel-track">
-          <div class="carousel-slide">
-            <img src="iot-photo1.jpeg" alt="IOT photo 1" />
-          </div>
-          <div class="carousel-slide">
-            <img src="iot-photo2.jpeg" alt="IOT photo 2" />
-          </div>
-          <div class="carousel-slide">
-            <video controls>
-              <source src="video-iot.mov" type="video/mp4" />
-            </video>
-          </div>
+          <div class="carousel-slide"><img src="iot-photo1.jpeg" alt="IOT photo 1" /></div>
+          <div class="carousel-slide"><img src="iot-photo2.jpeg" alt="IOT photo 2" /></div>
+          <div class="carousel-slide"><video controls><source src="video-iot.mov" type="video/mp4" /></video></div>
         </div>
-        <button class="car-btn car-prev" onclick="moveCarousel('carouselIOTModal', -1)">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="car-btn car-next" onclick="moveCarousel('carouselIOTModal', 1)">
-          <i class="fas fa-chevron-right"></i>
-        </button>
+        <button class="car-btn car-prev" onclick="moveCarousel('carouselIOTModal', -1)"><i class="fas fa-chevron-left"></i></button>
+        <button class="car-btn car-next" onclick="moveCarousel('carouselIOTModal', 1)"><i class="fas fa-chevron-right"></i></button>
         <div class="car-dots" id="dotsIOTModal"></div>
       </div>
       <div class="modal-content">
         <h3>🌡️ Système IoT de Surveillance de Température (Edge + Cloud)</h3>
-        <p>Projet IoT intelligent basé sur l'ESP32 permettant la surveillance en temps réel de la température via une architecture Edge + Cloud. Le système collecte les données grâce à des capteurs connectés, les traite localement sur l'ESP32 puis les envoie vers le cloud pour le suivi et le stockage.
-
-Le projet intègre également une interface web embarquée permettant de visualiser les données en direct, surveiller l'état du système et recevoir des alertes en cas de dépassement de seuil critique.
-
-🔧 Technologies utilisées : ESP32, IoT, interface web embarquée, communication réseau, Edge Computing, Cloud Computing.</p>
-        <div class="modal-tags">
-          <span class="ptag">Arduino</span>
-          <span class="ptag">C++</span>
-        </div>
-        <div class="project-links" style="margin-top:1rem">
-          <a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a>
-        </div>
+        <p>Projet IoT intelligent basé sur l'ESP32 permettant la surveillance en temps réel de la température via une architecture Edge + Cloud. Le système collecte les données grâce à des capteurs connectés, les traite localement sur l'ESP32 puis les envoie vers le cloud.</p>
+        <div class="modal-tags"><span class="ptag">Arduino</span><span class="ptag">C++</span></div>
+        <div class="project-links" style="margin-top:1rem"><a href="#" class="plink"><i class="fab fa-github"></i> Voir sur GitHub</a></div>
       </div>
     </div>
   </div>
 
-  <!-- MODAL GÉNÉRIQUE pour projets dynamiques -->
+  <!-- MODAL DYNAMIQUE -->
   <div class="modal-overlay" id="modalDynamic">
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal('modalDynamic')"><i class="fas fa-times"></i></button>
@@ -300,16 +252,11 @@ Le projet intègre également une interface web embarquée permettant de visuali
     <p class="section-intro">Téléchargez mon curriculum vitae pour découvrir mon parcours complet, mes compétences et mes expériences.</p>
     <div class="cv-download-wrapper reveal">
       <div class="cv-card">
-        <div class="cv-icon">
-          <i class="fas fa-file-pdf"></i>
-        </div>
+        <div class="cv-icon"><i class="fas fa-file-pdf"></i></div>
         <div class="cv-text">
           <h3>Curriculum Vitae</h3>
           <p>Abdoulie Ba — Licence Informatique Appliquée</p>
-          <span class="cv-meta">
-            <i class="fas fa-calendar-alt"></i> Mis à jour 2026 &nbsp;|&nbsp;
-            <i class="fas fa-file-alt"></i> Format PDF
-          </span>
+          <span class="cv-meta"><i class="fas fa-calendar-alt"></i> Mis à jour 2026 &nbsp;|&nbsp;<i class="fas fa-file-alt"></i> Format PDF</span>
         </div>
         <a href="CV_Abdoulie_Ba_v3.pdf" download="CV_Abdoulie_Ba_v3.pdf" class="btn btn-primary cv-btn">
           <i class="fas fa-download"></i> Télécharger le CV
@@ -347,7 +294,7 @@ Le projet intègre également une interface web embarquée permettant de visuali
           <a href="https://github.com/Abdoulie04/Abdoulie.git" class="social-link"><i class="fab fa-github"></i></a>
           <a href="https://www.linkedin.com/in/abdoulie-ba-b39453341/" class="social-link"><i class="fab fa-linkedin-in"></i></a>
           <a href="https://www.tiktok.com/@abdoulie__ba?_r=1&_t=ZS-96o8Ai5f8Bs" class="social-link"><i class="fab fa-tiktok"></i></a>
-          <a href="mailto:ba.abdoulie@uam.edu.sn" class="social-link" title="Email" target="_blank"><i class="fas fa-envelope"></i></a>
+          <a href="mailto:ba.abdoulie@uam.edu.sn" class="social-link" target="_blank"><i class="fas fa-envelope"></i></a>
         </div>
       </div>
       <form class="contact-form reveal" id="contactForm">
@@ -385,7 +332,7 @@ Le projet intègre également une interface web embarquée permettant de visuali
         <span class="logo-name">Ba</span>
         <span class="logo-bracket">/&gt;</span>
       </div>
-      <p>© 2026 Abdoulie Ba — Étudiant en Licence Informatique Appliquée</p>
+      <p>©️ 2026 Abdoulie Ba — Étudiant en Licence Informatique Appliquée</p>
       <p class="footer-made">Fait avec <i class="fas fa-heart" style="color:var(--accent)"></i> et beaucoup de café ☕</p>
     </div>
   </footer>
@@ -394,6 +341,10 @@ Le projet intègre également une interface web embarquée permettant de visuali
     <i class="fas fa-arrow-up"></i>
   </button>
 
+  <!-- Script UI (carousel, modals, thème...) -->
+  <script src="script.js"></script>
+
+  <!-- Script API -->
   <script>
     const API_URL = "https://portfolio-production-4aae.up.railway.app";
     let projetsData = [];
@@ -406,14 +357,9 @@ Le projet intègre également une interface web embarquée permettant de visuali
 
         projetsData.forEach((p, index) => {
           const card = document.createElement('div');
-          card.className = 'project-card reveal active';
-          card.style.opacity = '1';
-          card.style.transform = 'none';
+          card.className = 'project-card reveal';
           card.setAttribute('data-category', p.categorie || 'web');
-
           const techTags = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
-          const demoLink = p.lien_demo ? `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Démo</a>` : '';
-
           card.innerHTML = `
             <div class="project-media">
               ${p.image ? `<img src="${p.image}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;">` : `<div class="project-placeholder"><i class="fas fa-code"></i></div>`}
@@ -427,7 +373,7 @@ Le projet intègre également une interface web embarquée permettant de visuali
               <p>${(p.description || '').substring(0, 100)}${p.description && p.description.length > 100 ? '...' : ''}</p>
               <div class="project-links">
                 ${p.lien_github ? `<a href="${p.lien_github}" class="plink" target="_blank"><i class="fab fa-github"></i> Code</a>` : ''}
-                ${demoLink}
+                ${p.lien_demo ? `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Démo</a>` : ''}
               </div>
             </div>
           `;
@@ -442,55 +388,14 @@ Le projet intègre également une interface web embarquée permettant de visuali
       const p = projetsData[index];
       document.getElementById('modalDynamicTitre').textContent = p.titre;
       document.getElementById('modalDynamicDesc').textContent = p.description || '';
-      const tags = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
-      document.getElementById('modalDynamicTags').innerHTML = tags;
-
+      document.getElementById('modalDynamicTags').innerHTML = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
       let links = '';
       if (p.lien_github) links += `<a href="${p.lien_github}" class="plink" target="_blank"><i class="fab fa-github"></i> Voir sur GitHub</a>`;
       if (p.lien_demo) links += `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Démo</a>`;
       document.getElementById('modalDynamicLinks').innerHTML = links;
-
       openModal('modalDynamic');
     }
 
-    function initContactForm() {
-      const contactForm = document.getElementById('contactForm');
-      if (!contactForm) {
-        console.warn('contactForm introuvable, formulaire non initialisé');
-        return;
-      }
-      contactForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        const nom = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const sujet = document.getElementById('sujet').value;
-        const message = document.getElementById('message').value;
-
-        try {
-          const res = await fetch(`${API_URL}/api/messages`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nom, email, sujet, message })
-          });
-
-          if (res.ok) {
-            document.getElementById('formSuccess').style.display = 'block';
-            contactForm.reset();
-            setTimeout(() => {
-              document.getElementById('formSuccess').style.display = 'none';
-            }, 4000);
-          } else {
-            alert('Erreur lors de l\'envoi du message. Réessaie.');
-          }
-        } catch (err) {
-          console.error('Erreur envoi message :', err);
-          alert('Impossible de contacter le serveur.');
-        }
-      });
-    }
-
-    /* ---------- COMPÉTENCES DYNAMIQUES ---------- */
     async function loadCompetencesDynamiques() {
       try {
         const res = await fetch(`${API_URL}/api/competences`);
@@ -498,7 +403,6 @@ Le projet intègre également une interface web embarquée permettant de visuali
         const container = document.getElementById('skillBarsContainer');
         if (!container) return;
         container.innerHTML = '';
-
         competences.forEach(c => {
           const div = document.createElement('div');
           div.className = 'skill-bar';
@@ -513,7 +417,6 @@ Le projet intègre également une interface web embarquée permettant de visuali
       }
     }
 
-    /* ---------- PARCOURS DYNAMIQUE ---------- */
     async function loadParcoursDynamique() {
       try {
         const res = await fetch(`${API_URL}/api/experiences`);
@@ -521,7 +424,6 @@ Le projet intègre également une interface web embarquée permettant de visuali
         const container = document.getElementById('timelineContainer');
         if (!container) return;
         container.innerHTML = '';
-
         experiences.forEach(e => {
           const div = document.createElement('div');
           div.className = 'tl-item';
@@ -540,11 +442,40 @@ Le projet intègre également une interface web embarquée permettant de visuali
       }
     }
 
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type=submit]');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
+      btn.disabled = true;
+      try {
+        const res = await fetch(`${API_URL}/api/messages`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nom: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            sujet: document.getElementById('sujet').value,
+            message: document.getElementById('message').value
+          })
+        });
+        if (res.ok) {
+          this.reset();
+          document.getElementById('formSuccess').style.display = 'block';
+          setTimeout(() => document.getElementById('formSuccess').style.display = 'none', 4000);
+        } else {
+          alert('Erreur lors de l\'envoi. Réessaie.');
+        }
+      } catch (err) {
+        alert('Impossible de contacter le serveur.');
+      }
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
+      btn.disabled = false;
+    });
+
     loadProjetsDynamiques();
     loadCompetencesDynamiques();
     loadParcoursDynamique();
-    initContactForm();
   </script>
-  <script src="script.js"></script>
+
 </body>
 </html>
