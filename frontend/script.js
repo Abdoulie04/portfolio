@@ -1,3 +1,5 @@
+const API_URL = "https://portfolio-production-4aae.up.railway.app";
+
 /* ── 1. THÈME CLAIR / SOMBRE ── */
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon   = document.getElementById('themeIcon');
@@ -140,21 +142,17 @@ const skillObserver = new IntersectionObserver(
 document.querySelectorAll('.card-skills').forEach(card => skillObserver.observe(card));
 
 /* ── 10. FILTRE PROJETS ── */
-const filterBtns   = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
+const filterBtns = document.querySelectorAll('.filter-btn');
 
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const filter = btn.dataset.filter;
     filterBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    projectCards.forEach(card => {
+    document.querySelectorAll('.project-card').forEach(card => {
       const cat = card.dataset.category;
       if (filter === 'all' || cat === filter) {
         card.classList.remove('hidden');
-        card.style.animation = 'none';
-        card.offsetHeight;
-        card.style.animation = '';
       } else {
         card.classList.add('hidden');
       }
@@ -167,17 +165,13 @@ const carouselState = {};
 
 function initCarousel(id) {
   if (carouselState[id]) return;
-
   const carousel = document.getElementById(id);
   if (!carousel) return;
-
   const slides = carousel.querySelectorAll('.carousel-slide');
   if (slides.length === 0) return;
-
   const dotsContainer = carousel.querySelector('.car-dots');
   dotsContainer.innerHTML = '';
   let current = 0;
-
   slides.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.classList.add('car-dot');
@@ -185,7 +179,6 @@ function initCarousel(id) {
     dot.addEventListener('click', () => goTo(i));
     dotsContainer.appendChild(dot);
   });
-
   function goTo(index) {
     const currentVideo = slides[current].querySelector('video');
     if (currentVideo) currentVideo.pause();
@@ -195,7 +188,6 @@ function initCarousel(id) {
     carousel.querySelectorAll('.car-dot').forEach((d, i) =>
       d.classList.toggle('active', i === current));
   }
-
   carouselState[id] = { goTo, getCurrent: () => current };
 }
 
@@ -221,14 +213,12 @@ function closeModal(id) {
   document.body.style.overflow = '';
 }
 
-// Fermer en cliquant en dehors
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', e => {
     if (e.target === overlay) closeModal(overlay.id);
   });
 });
 
-// Fermer avec Échap
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.querySelectorAll('.modal-overlay.open').forEach(modal => {
@@ -242,26 +232,96 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousel('carouselIOT');
 });
 
-/* ── 14. FORMULAIRE DE CONTACT ── */
+/* ── 14. PROJETS DEPUIS L'API ── */
+async function loadProjets() {
+  try {
+    const res = await fetch(`${API_URL}/api/projets`);
+    const projets = await res.json();
+
+    if (!Array.isArray(projets) || projets.length === 0) return;
+
+    const grid = document.getElementById('projectsGrid');
+    // Vider les projets statiques
+    grid.innerHTML = '';
+
+    projets.forEach(p => {
+      const card = document.createElement('div');
+      card.classList.add('project-card', 'reveal');
+      card.dataset.category = p.categorie || 'web';
+
+      card.innerHTML = `
+        <div class="project-media">
+          ${p.image
+            ? `<img src="${p.image}" alt="${p.titre}" style="width:100%;height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'" />`
+            : `<div class="project-placeholder"><i class="fas fa-code"></i></div>`
+          }
+        </div>
+        <div class="project-info">
+          <div class="project-tags">
+            ${(p.technologies || '').split(',').map(t =>
+              `<span class="ptag">${t.trim()}</span>`
+            ).join('')}
+          </div>
+          <h3>${p.titre}</h3>
+          <p>${p.description || ''}</p>
+          <div class="project-links">
+            ${p.lien_github ? `<a href="${p.lien_github}" class="plink" target="_blank"><i class="fab fa-github"></i> Code</a>` : ''}
+            ${p.lien_demo ? `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Démo</a>` : ''}
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // Réappliquer reveal et filtre
+    grid.querySelectorAll('.reveal').forEach((el, i) => {
+      el.dataset.delay = (i % 4) * 120;
+      revealObserver.observe(el);
+    });
+
+  } catch (err) {
+    console.error('Erreur chargement projets:', err);
+  }
+}
+
+/* ── 15. FORMULAIRE DE CONTACT → API ── */
 const contactForm = document.getElementById('contactForm');
 const formSuccess = document.getElementById('formSuccess');
 
-contactForm.addEventListener('submit', e => {
+contactForm.addEventListener('submit', async e => {
   e.preventDefault();
   const btn = contactForm.querySelector('button[type=submit]');
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
   btn.disabled = true;
 
-  setTimeout(() => {
-    contactForm.reset();
-    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
-    btn.disabled = false;
-    formSuccess.classList.add('show');
-    setTimeout(() => formSuccess.classList.remove('show'), 4000);
-  }, 2000);
+  try {
+    const res = await fetch(`${API_URL}/api/messages`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nom: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        sujet: document.getElementById('sujet').value,
+        message: document.getElementById('message').value
+      })
+    });
+
+    if (res.ok) {
+      contactForm.reset();
+      formSuccess.classList.add('show');
+      setTimeout(() => formSuccess.classList.remove('show'), 4000);
+    } else {
+      alert('Erreur lors de l\'envoi. Réessaie.');
+    }
+  } catch (err) {
+    alert('Impossible de contacter le serveur.');
+  }
+
+  btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
+  btn.disabled = false;
 });
 
-/* ── 15. BARRE DE PROGRESSION ── */
+/* ── 16. BARRE DE PROGRESSION ── */
 const progressBar = document.createElement('div');
 progressBar.style.cssText = `
   position: fixed; top: 0; left: 0; z-index: 9999;
@@ -277,3 +337,6 @@ window.addEventListener('scroll', () => {
   const progress    = (window.scrollY / scrollTotal) * 100;
   progressBar.style.width = `${progress}%`;
 });
+
+/* ── INIT ── */
+loadProjets();
