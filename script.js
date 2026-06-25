@@ -232,96 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousel('carouselIOT');
 });
 
-/* ── 14. PROJETS DEPUIS L'API ── */
-async function loadProjets() {
-  try {
-    const res = await fetch(`${API_URL}/api/projets`);
-    const projets = await res.json();
-
-    if (!Array.isArray(projets) || projets.length === 0) return;
-
-    const grid = document.getElementById('projectsGrid');
-    // Vider les projets statiques
-    grid.innerHTML = '';
-
-    projets.forEach(p => {
-      const card = document.createElement('div');
-      card.classList.add('project-card', 'reveal');
-      card.dataset.category = p.categorie || 'web';
-
-      card.innerHTML = `
-        <div class="project-media">
-          ${p.image
-            ? `<img src="${p.image}" alt="${p.titre}" style="width:100%;height:200px;object-fit:cover;border-radius:8px;" onerror="this.style.display='none'" />`
-            : `<div class="project-placeholder"><i class="fas fa-code"></i></div>`
-          }
-        </div>
-        <div class="project-info">
-          <div class="project-tags">
-            ${(p.technologies || '').split(',').map(t =>
-              `<span class="ptag">${t.trim()}</span>`
-            ).join('')}
-          </div>
-          <h3>${p.titre}</h3>
-          <p>${p.description || ''}</p>
-          <div class="project-links">
-            ${p.lien_github ? `<a href="${p.lien_github}" class="plink" target="_blank"><i class="fab fa-github"></i> Code</a>` : ''}
-            ${p.lien_demo ? `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Démo</a>` : ''}
-          </div>
-        </div>
-      `;
-      grid.appendChild(card);
-    });
-
-    // Réappliquer reveal et filtre
-    grid.querySelectorAll('.reveal').forEach((el, i) => {
-      el.dataset.delay = (i % 4) * 120;
-      revealObserver.observe(el);
-    });
-
-  } catch (err) {
-    console.error('Erreur chargement projets:', err);
-  }
-}
-
-/* ── 15. FORMULAIRE DE CONTACT → API ── */
-const contactForm = document.getElementById('contactForm');
-const formSuccess = document.getElementById('formSuccess');
-
-contactForm.addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = contactForm.querySelector('button[type=submit]');
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi...';
-  btn.disabled = true;
-
-  try {
-    const res = await fetch(`${API_URL}/api/messages`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nom: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        sujet: document.getElementById('sujet').value,
-        message: document.getElementById('message').value
-      })
-    });
-
-    if (res.ok) {
-      contactForm.reset();
-      formSuccess.classList.add('show');
-      setTimeout(() => formSuccess.classList.remove('show'), 4000);
-    } else {
-      alert('Erreur lors de l\'envoi. Réessaie.');
-    }
-  } catch (err) {
-    alert('Impossible de contacter le serveur.');
-  }
-
-  btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le message';
-  btn.disabled = false;
-});
-
-/* ── 16. BARRE DE PROGRESSION ── */
+/* ── 14. BARRE DE PROGRESSION ── */
 const progressBar = document.createElement('div');
 progressBar.style.cssText = `
   position: fixed; top: 0; left: 0; z-index: 9999;
@@ -337,6 +248,3 @@ window.addEventListener('scroll', () => {
   const progress    = (window.scrollY / scrollTotal) * 100;
   progressBar.style.width = `${progress}%`;
 });
-
-/* ── INIT ── */
-loadProjets();
