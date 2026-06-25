@@ -5,15 +5,16 @@ const cors = require('cors');
 const session = require('express-session');
 const path = require('path');
 
-console.log('DEBUG SESSION_SECRET existe ?', !!process.env.SESSION_SECRET);
-console.log('DEBUG toutes les variables liées:', Object.keys(process.env).filter(k => k.includes('SESSION') || k.includes('DB_')));
-
 const authRoutes = require('./routes/auth');
 const projetsRoutes = require('./routes/projets');
 const messagesRoutes = require('./routes/messages');
 const competencesRoutes = require('./routes/competences');
 const experiencesRoutes = require('./routes/experiences');
 const app = express();
+
+// Important pour que les cookies secure fonctionnent derrière le proxy de Railway
+app.set('trust proxy', 1);
+
 // Connexion MySQL
 const db = mysql.createPool({
   host: process.env.DB_HOST,
@@ -33,32 +34,37 @@ db.getConnection((err, connection) => {
   console.log('Connecté à MySQL avec succès !');
   connection.release();
 });
+
 // Middlewares
-app.use(cors({ 
+app.use(cors({
   origin: true,
-  credentials: true 
+  credentials: true
 }));
 app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 2, sameSite: 'lax', secure: false }
+  cookie: { maxAge: 1000 * 60 * 60 * 2, sameSite: 'none', secure: true }
 }));
+
 // Rendre db accessible dans les routes
 app.use((req, res, next) => {
   req.db = db;
   next();
 });
+
 app.use('/api/auth', authRoutes);
 app.use('/api/projets', projetsRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/competences', competencesRoutes);
 app.use('/api/experiences', experiencesRoutes);
+
 // Route test
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Le serveur fonctionne !' });
 });
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);

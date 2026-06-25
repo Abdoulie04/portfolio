@@ -110,14 +110,6 @@
 
   <script>
     const API_URL = "https://portfolio-production-4aae.up.railway.app";
-    const token = localStorage.getItem('token');
-
-    function authHeaders() {
-      return {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      };
-    }
 
     function showTab(tab) {
       document.getElementById('tabProjets').style.display = tab === 'projets' ? 'block' : 'none';
@@ -137,19 +129,15 @@
 
     /* ---------- AUTH ---------- */
     async function checkAuth() {
-      if (!token) { window.location.href = 'login.html'; return; }
-      const res = await fetch(`${API_URL}/api/auth/check`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const res = await fetch(`${API_URL}/api/auth/check`, { credentials: 'include' });
       const data = await res.json();
       if (!data.connecte) {
-        localStorage.removeItem('token');
         window.location.href = 'login.html';
       }
     }
 
     async function logout() {
-      localStorage.removeItem('token');
+      await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
       window.location.href = 'login.html';
     }
 
@@ -187,7 +175,13 @@
       const url = id ? `${API_URL}/api/projets/${id}` : `${API_URL}/api/projets`;
       const method = id ? 'PUT' : 'POST';
 
-      await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(body) });
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      });
+
       resetForm();
       loadProjets();
     }
@@ -206,7 +200,7 @@
 
     async function deleteProjet(id) {
       if (!confirm('Supprimer ce projet ?')) return;
-      await fetch(`${API_URL}/api/projets/${id}`, { method: 'DELETE', headers: authHeaders() });
+      await fetch(`${API_URL}/api/projets/${id}`, { method: 'DELETE', credentials: 'include' });
       loadProjets();
     }
 
@@ -224,7 +218,7 @@
 
     /* ---------- MESSAGES ---------- */
     async function loadMessages() {
-      const res = await fetch(`${API_URL}/api/messages`, { headers: authHeaders() });
+      const res = await fetch(`${API_URL}/api/messages`, { credentials: 'include' });
       const messages = await res.json();
       const tbody = document.getElementById('messagesTable');
       tbody.innerHTML = '';
@@ -251,13 +245,13 @@
     }
 
     async function marquerLu(id) {
-      await fetch(`${API_URL}/api/messages/${id}/lu`, { method: 'PUT', headers: authHeaders() });
+      await fetch(`${API_URL}/api/messages/${id}/lu`, { method: 'PUT', credentials: 'include' });
       loadMessages();
     }
 
     async function deleteMessage(id) {
       if (!confirm('Supprimer ce message ?')) return;
-      await fetch(`${API_URL}/api/messages/${id}`, { method: 'DELETE', headers: authHeaders() });
+      await fetch(`${API_URL}/api/messages/${id}`, { method: 'DELETE', credentials: 'include' });
       loadMessages();
     }
 
@@ -290,7 +284,13 @@
       const url = id ? `${API_URL}/api/competences/${id}` : `${API_URL}/api/competences`;
       const method = id ? 'PUT' : 'POST';
 
-      await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(body) });
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      });
+
       resetFormComp();
       loadCompetences();
     }
@@ -304,7 +304,7 @@
 
     async function deleteCompetence(id) {
       if (!confirm('Supprimer cette compétence ?')) return;
-      await fetch(`${API_URL}/api/competences/${id}`, { method: 'DELETE', headers: authHeaders() });
+      await fetch(`${API_URL}/api/competences/${id}`, { method: 'DELETE', credentials: 'include' });
       loadCompetences();
     }
 
@@ -348,7 +348,13 @@
       const url = id ? `${API_URL}/api/experiences/${id}` : `${API_URL}/api/experiences`;
       const method = id ? 'PUT' : 'POST';
 
-      await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(body) });
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(body)
+      });
+
       resetFormExp();
       loadExperiences();
     }
@@ -364,7 +370,7 @@
 
     async function deleteExperience(id) {
       if (!confirm('Supprimer cette étape du parcours ?')) return;
-      await fetch(`${API_URL}/api/experiences/${id}`, { method: 'DELETE', headers: authHeaders() });
+      await fetch(`${API_URL}/api/experiences/${id}`, { method: 'DELETE', credentials: 'include' });
       loadExperiences();
     }
 
