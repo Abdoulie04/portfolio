@@ -357,7 +357,7 @@
 
         projetsData.forEach((p, index) => {
           const card = document.createElement('div');
-          card.className = 'project-card reveal';
+          card.className = 'project-card reveal visible';
           card.setAttribute('data-category', p.categorie || 'web');
           const techTags = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
           card.innerHTML = `
