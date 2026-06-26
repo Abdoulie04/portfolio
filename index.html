@@ -232,7 +232,16 @@
   <div class="modal-overlay" id="modalDynamic">
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal('modalDynamic')"><i class="fas fa-times"></i></button>
-      <div class="modal-media"><div class="modal-placeholder" id="modalDynamicIcon"><i class="fas fa-code"></i></div></div>
+      <!-- ✅ MODIFIÉ : carousel dynamique + placeholder -->
+      <div class="modal-media">
+        <div class="carousel modal-carousel" id="carouselDynamic" style="display:none;">
+          <div class="carousel-track" id="carouselDynamicTrack"></div>
+          <button class="car-btn car-prev" onclick="moveCarousel('carouselDynamic', -1)"><i class="fas fa-chevron-left"></i></button>
+          <button class="car-btn car-next" onclick="moveCarousel('carouselDynamic', 1)"><i class="fas fa-chevron-right"></i></button>
+          <div class="car-dots" id="dotsDynamic"></div>
+        </div>
+        <div class="modal-placeholder" id="modalDynamicIcon"><i class="fas fa-code"></i></div>
+      </div>
       <div class="modal-content">
         <h3 id="modalDynamicTitre"></h3>
         <p id="modalDynamicDesc"></p>
@@ -360,9 +369,18 @@
           card.className = 'project-card reveal visible';
           card.setAttribute('data-category', p.categorie || 'web');
           const techTags = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
+
+          // Première image pour la card (supporte images[] ou image)
+          const firstImage = Array.isArray(p.images) && p.images.length > 0
+            ? p.images[0]
+            : (p.image || null);
+
           card.innerHTML = `
             <div class="project-media">
-              ${p.image ? `<img src="${p.image}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;">` : `<div class="project-placeholder"><i class="fas fa-code"></i></div>`}
+              ${firstImage
+                ? `<img src="${firstImage}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;">`
+                : `<div class="project-placeholder"><i class="fas fa-code"></i></div>`
+              }
               <div class="project-overlay">
                 <button class="media-btn" onclick="openModalDynamic(${index})"><i class="fas fa-expand"></i> Voir plus</button>
               </div>
@@ -384,21 +402,60 @@
       }
     }
 
+    // ✅ MODIFIÉ : openModalDynamic avec carousel si plusieurs images
     function openModalDynamic(index) {
       const p = projetsData[index];
       document.getElementById('modalDynamicTitre').textContent = p.titre;
       document.getElementById('modalDynamicDesc').textContent = p.description || '';
-      document.getElementById('modalDynamicTags').innerHTML = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
-      const iconEl = document.getElementById('modalDynamicIcon');
-      if (p.image) {
-        iconEl.innerHTML = `<img src="${p.image}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+      document.getElementById('modalDynamicTags').innerHTML = (p.technologies || '')
+        .split(',').filter(t => t.trim())
+        .map(t => `<span class="ptag">${t.trim()}</span>`).join('');
+
+      const iconEl      = document.getElementById('modalDynamicIcon');
+      const carouselEl  = document.getElementById('carouselDynamic');
+      const track       = document.getElementById('carouselDynamicTrack');
+
+      // Supporte "images" (array) OU "image" (string)
+      const images = Array.isArray(p.images) && p.images.length > 0
+        ? p.images
+        : (p.image ? [p.image] : []);
+
+      if (images.length > 1) {
+        // MODE CAROUSEL
+        carouselEl.style.display = 'block';
+        iconEl.style.display = 'none';
+
+        track.innerHTML = '';
+        delete carouselState['carouselDynamic'];
+
+        images.forEach(src => {
+          const slide = document.createElement('div');
+          slide.className = 'carousel-slide';
+          slide.innerHTML = `<img src="${src}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;">`;
+          track.appendChild(slide);
+        });
+
+        document.getElementById('dotsDynamic').innerHTML = '';
+        initCarousel('carouselDynamic');
+
+      } else if (images.length === 1) {
+        // MODE IMAGE SIMPLE
+        carouselEl.style.display = 'none';
+        iconEl.style.display = 'flex';
+        iconEl.innerHTML = `<img src="${images[0]}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+
       } else {
+        // PAS D'IMAGE
+        carouselEl.style.display = 'none';
+        iconEl.style.display = 'flex';
         iconEl.innerHTML = `<i class="fas fa-code"></i>`;
       }
+
       let links = '';
       if (p.lien_github) links += `<a href="${p.lien_github}" class="plink" target="_blank"><i class="fab fa-github"></i> Voir sur GitHub</a>`;
-      if (p.lien_demo) links += `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>`;
+      if (p.lien_demo)   links += `<a href="${p.lien_demo}" class="plink plink-demo" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>`;
       document.getElementById('modalDynamicLinks').innerHTML = links;
+
       openModal('modalDynamic');
     }
 
