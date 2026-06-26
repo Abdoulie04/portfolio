@@ -17,6 +17,10 @@
     th, td { border:1px solid #333; padding:10px; text-align:left; }
     th { background:#1a1a1a; }
     .actions button { margin-right:6px; }
+    .images-list { margin-top:6px; }
+    .images-list input { margin-bottom:4px; }
+    .btn-small { padding:4px 10px; font-size:0.85rem; }
+    label { font-size:0.9rem; color:#aaa; margin-top:8px; display:block; }
   </style>
 </head>
 <body>
@@ -48,7 +52,13 @@
       </select>
       <input type="text" id="lien_github" placeholder="Lien GitHub" />
       <input type="text" id="lien_demo" placeholder="Lien Démo (optionnel)" />
-      <input type="text" id="image" placeholder="Nom de l'image (ex: projet1.jpg)" />
+      <input type="text" id="image" placeholder="Image principale (URL raw GitHub)" />
+      <label>Images supplémentaires (URLs raw GitHub) :</label>
+      <div class="images-list" id="imagesList">
+        <input type="text" class="extra-image" placeholder="URL image 1" />
+      </div>
+      <button class="btn-small" style="background:#555; margin-bottom:8px;" onclick="addImageField()">+ Ajouter une image</button>
+      <br>
       <button onclick="saveProjet()">Enregistrer</button>
       <button onclick="resetForm()" style="background:#555;">Annuler</button>
     </div>
@@ -153,6 +163,23 @@
       window.location.href = 'login.html';
     }
 
+    /* ---------- IMAGES ---------- */
+    function addImageField(value = '') {
+      const div = document.getElementById('imagesList');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'extra-image';
+      input.placeholder = 'URL image';
+      input.value = value;
+      div.appendChild(input);
+    }
+
+    function getExtraImages() {
+      return Array.from(document.querySelectorAll('.extra-image'))
+        .map(i => i.value.trim())
+        .filter(v => v !== '');
+    }
+
     /* ---------- PROJETS ---------- */
     async function loadProjets() {
       const res = await fetch(`${API_URL}/api/projets`);
@@ -160,12 +187,13 @@
       const tbody = document.getElementById('projetsTable');
       tbody.innerHTML = '';
       projets.forEach(p => {
+        const pStr = JSON.stringify(p).replace(/'/g, "&#39;");
         tbody.innerHTML += `
           <tr>
             <td>${p.titre}</td>
             <td>${p.technologies || ''}</td>
             <td class="actions">
-              <button onclick='editProjet(${JSON.stringify(p)})'>Modifier</button>
+              <button onclick='editProjet(${pStr})'>Modifier</button>
               <button class="btn-danger" onclick="deleteProjet(${p.id})">Supprimer</button>
             </td>
           </tr>`;
@@ -174,6 +202,7 @@
 
     async function saveProjet() {
       const id = document.getElementById('projetId').value;
+      const images = getExtraImages();
       const body = {
         titre: document.getElementById('titre').value,
         description: document.getElementById('description').value,
@@ -181,7 +210,8 @@
         categorie: document.getElementById('categorie').value,
         lien_github: document.getElementById('lien_github').value,
         lien_demo: document.getElementById('lien_demo').value,
-        image: document.getElementById('image').value
+        image: document.getElementById('image').value,
+        images: images
       };
 
       const url = id ? `${API_URL}/api/projets/${id}` : `${API_URL}/api/projets`;
@@ -194,7 +224,7 @@
 
     function editProjet(p) {
       document.getElementById('projetId').value = p.id;
-      document.getElementById('titre').value = p.titre;
+      document.getElementById('titre').value = p.titre || '';
       document.getElementById('description').value = p.description || '';
       document.getElementById('technologies').value = p.technologies || '';
       document.getElementById('categorie').value = p.categorie || 'web';
@@ -202,6 +232,16 @@
       document.getElementById('lien_demo').value = p.lien_demo || '';
       document.getElementById('image').value = p.image || '';
       document.getElementById('formTitle').textContent = 'Modifier le projet';
+
+      // Remplir les images supplémentaires
+      const imagesList = document.getElementById('imagesList');
+      imagesList.innerHTML = '<input type="text" class="extra-image" placeholder="URL image 1" />';
+      if (p.images && p.images.length > 0) {
+        document.querySelector('.extra-image').value = p.images[0];
+        for (let i = 1; i < p.images.length; i++) {
+          addImageField(p.images[i]);
+        }
+      }
     }
 
     async function deleteProjet(id) {
@@ -219,6 +259,7 @@
       document.getElementById('lien_github').value = '';
       document.getElementById('lien_demo').value = '';
       document.getElementById('image').value = '';
+      document.getElementById('imagesList').innerHTML = '<input type="text" class="extra-image" placeholder="URL image 1" />';
       document.getElementById('formTitle').textContent = 'Ajouter un projet';
     }
 
@@ -286,10 +327,8 @@
         nom: document.getElementById('compNom').value,
         niveau: document.getElementById('compNiveau').value
       };
-
       const url = id ? `${API_URL}/api/competences/${id}` : `${API_URL}/api/competences`;
       const method = id ? 'PUT' : 'POST';
-
       await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(body) });
       resetFormComp();
       loadCompetences();
@@ -315,7 +354,7 @@
       document.getElementById('formTitleComp').textContent = 'Ajouter une compétence';
     }
 
-    /* ---------- PARCOURS / EXPÉRIENCES ---------- */
+    /* ---------- PARCOURS ---------- */
     async function loadExperiences() {
       const res = await fetch(`${API_URL}/api/experiences`);
       const experiences = await res.json();
@@ -344,10 +383,8 @@
         etablissement: document.getElementById('expEtablissement').value,
         ordre: document.getElementById('expOrdre').value
       };
-
       const url = id ? `${API_URL}/api/experiences/${id}` : `${API_URL}/api/experiences`;
       const method = id ? 'PUT' : 'POST';
-
       await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(body) });
       resetFormExp();
       loadExperiences();
