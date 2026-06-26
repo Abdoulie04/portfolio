@@ -1,5 +1,3 @@
-
-
 /* ── 1. THÈME CLAIR / SOMBRE ── */
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon   = document.getElementById('themeIcon');
@@ -211,6 +209,10 @@ function closeModal(id) {
   modal.querySelectorAll('video').forEach(v => v.pause());
   modal.classList.remove('open');
   document.body.style.overflow = '';
+  // Reset carousel dynamique à la fermeture
+  if (id === 'modalDynamic') {
+    delete carouselState['carouselDynamic'];
+  }
 }
 
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
