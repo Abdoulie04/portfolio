@@ -202,6 +202,7 @@
           <div class="project-links"><a href="#" class="plink"><i class="fab fa-github"></i> Code</a></div>
         </div>
       </div>
+      <!-- Les projets dynamiques seront insérés ici -->
     </div>
   </section>
 
@@ -232,7 +233,6 @@
   <div class="modal-overlay" id="modalDynamic">
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal('modalDynamic')"><i class="fas fa-times"></i></button>
-      <!-- ✅ MODIFIÉ : carousel dynamique + placeholder -->
       <div class="modal-media">
         <div class="carousel modal-carousel" id="carouselDynamic" style="display:none;">
           <div class="carousel-track" id="carouselDynamicTrack"></div>
@@ -350,10 +350,8 @@
     <i class="fas fa-arrow-up"></i>
   </button>
 
-  <!-- Script UI (carousel, modals, thème...) -->
   <script src="script.js"></script>
 
-  <!-- Script API -->
   <script>
     const API_URL = "https://portfolio-production-4aae.up.railway.app";
     let projetsData = [];
@@ -370,10 +368,10 @@
           card.setAttribute('data-category', p.categorie || 'web');
           const techTags = (p.technologies || '').split(',').filter(t => t.trim()).map(t => `<span class="ptag">${t.trim()}</span>`).join('');
 
-          // Première image pour la card (supporte images[] ou image)
-          const firstImage = Array.isArray(p.images) && p.images.length > 0
-            ? p.images[0]
-            : (p.image || null);
+          const images = Array.isArray(p.images) && p.images.length > 0
+            ? p.images
+            : (p.image ? [p.image] : []);
+          const firstImage = images[0] || null;
 
           card.innerHTML = `
             <div class="project-media">
@@ -402,7 +400,6 @@
       }
     }
 
-    // ✅ MODIFIÉ : openModalDynamic avec carousel si plusieurs images
     function openModalDynamic(index) {
       const p = projetsData[index];
       document.getElementById('modalDynamicTitre').textContent = p.titre;
@@ -411,41 +408,40 @@
         .split(',').filter(t => t.trim())
         .map(t => `<span class="ptag">${t.trim()}</span>`).join('');
 
-      const iconEl      = document.getElementById('modalDynamicIcon');
-      const carouselEl  = document.getElementById('carouselDynamic');
-      const track       = document.getElementById('carouselDynamicTrack');
+      const iconEl     = document.getElementById('modalDynamicIcon');
+      const carouselEl = document.getElementById('carouselDynamic');
+      const track      = document.getElementById('carouselDynamicTrack');
 
-      // Supporte "images" (array) OU "image" (string)
       const images = Array.isArray(p.images) && p.images.length > 0
         ? p.images
         : (p.image ? [p.image] : []);
 
+      // Toujours réinitialiser l'état du carousel
+      delete carouselState['carouselDynamic'];
+      track.innerHTML = '';
+      document.getElementById('dotsDynamic').innerHTML = '';
+
       if (images.length > 1) {
-        // MODE CAROUSEL
         carouselEl.style.display = 'block';
         iconEl.style.display = 'none';
-
-        track.innerHTML = '';
-        delete carouselState['carouselDynamic'];
 
         images.forEach(src => {
           const slide = document.createElement('div');
           slide.className = 'carousel-slide';
-          slide.innerHTML = `<img src="${src}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;">`;
+          slide.innerHTML = `<img src="${src}" alt="${p.titre}" style="width:100%;height:100%;object-fit:contain;background:#000;border-radius:8px;">`;
           track.appendChild(slide);
         });
 
-        document.getElementById('dotsDynamic').innerHTML = '';
-        initCarousel('carouselDynamic');
+        // Délai pour laisser le DOM se mettre à jour avant initCarousel
+        setTimeout(() => initCarousel('carouselDynamic'), 50);
 
       } else if (images.length === 1) {
-        // MODE IMAGE SIMPLE
         carouselEl.style.display = 'none';
         iconEl.style.display = 'flex';
-        iconEl.innerHTML = `<img src="${images[0]}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
+        iconEl.style.padding = '0';
+        iconEl.innerHTML = `<img src="${images[0]}" alt="${p.titre}" style="width:100%;height:100%;object-fit:contain;background:#000;border-radius:8px;">`;
 
       } else {
-        // PAS D'IMAGE
         carouselEl.style.display = 'none';
         iconEl.style.display = 'flex';
         iconEl.innerHTML = `<i class="fas fa-code"></i>`;
