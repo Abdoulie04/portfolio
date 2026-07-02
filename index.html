@@ -371,16 +371,41 @@
           const images = Array.isArray(p.images) && p.images.length > 0
             ? p.images
             : (p.image ? [p.image] : []);
-          const firstImage = images[0] || null;
+
+          const carouselId = `carouselDyn${index}`;
+          const dotsId = `dotsDyn${index}`;
+
+          let mediaHTML = '';
+
+          if (images.length > 1) {
+            const slidesHTML = images.map(src =>
+              `<div class="carousel-slide"><img src="${src}" alt="${p.titre}"></div>`
+            ).join('');
+            mediaHTML = `
+              <div class="carousel" id="${carouselId}">
+                <div class="carousel-track">${slidesHTML}</div>
+                <button class="car-btn car-prev" onclick="event.stopPropagation(); moveCarousel('${carouselId}', -1)">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="car-btn car-next" onclick="event.stopPropagation(); moveCarousel('${carouselId}', 1)">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="car-dots" id="${dotsId}"></div>
+              </div>
+            `;
+          } else if (images.length === 1) {
+            mediaHTML = `<img src="${images[0]}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;">`;
+          } else {
+            mediaHTML = `<div class="project-placeholder"><i class="fas fa-code"></i></div>`;
+          }
 
           card.innerHTML = `
             <div class="project-media">
-              ${firstImage
-                ? `<img src="${firstImage}" alt="${p.titre}" style="width:100%;height:100%;object-fit:cover;">`
-                : `<div class="project-placeholder"><i class="fas fa-code"></i></div>`
-              }
+              ${mediaHTML}
               <div class="project-overlay">
-                <button class="media-btn" onclick="openModalDynamic(${index})"><i class="fas fa-expand"></i> Voir plus</button>
+                <button class="media-btn" onclick="openModalDynamic(${index})">
+                  <i class="fas fa-expand"></i> Voir plus
+                </button>
               </div>
             </div>
             <div class="project-info">
@@ -394,6 +419,11 @@
             </div>
           `;
           grid.appendChild(card);
+
+          // Initialiser le carousel après insertion dans le DOM
+          if (images.length > 1) {
+            setTimeout(() => initCarousel(carouselId), 50);
+          }
         });
       } catch (err) {
         console.error('Erreur chargement projets :', err);
@@ -416,7 +446,6 @@
         ? p.images
         : (p.image ? [p.image] : []);
 
-      // Toujours réinitialiser l'état du carousel
       delete carouselState['carouselDynamic'];
       track.innerHTML = '';
       document.getElementById('dotsDynamic').innerHTML = '';
@@ -432,7 +461,6 @@
           track.appendChild(slide);
         });
 
-        // Délai pour laisser le DOM se mettre à jour avant initCarousel
         setTimeout(() => initCarousel('carouselDynamic'), 50);
 
       } else if (images.length === 1) {

@@ -6,7 +6,13 @@ router.get('/', (req, res) => {
   req.db.query('SELECT * FROM projets ORDER BY date_creation DESC', (err, results) => {
     if (err) return res.status(500).json({ error: 'Erreur serveur' });
     results.forEach(p => {
-      p.images = p.images ? p.images.split(',').map(url => url.trim()).filter(Boolean) : [];
+      p.images = p.images 
+        ? p.images.split(',').map(url => url.trim()).filter(Boolean) 
+        : [];
+      // Ajoute l'image principale en tête si elle n'est pas déjà dedans
+      if (p.image && !p.images.includes(p.image)) {
+        p.images.unshift(p.image);
+      }
     });
     res.json(results);
   });
