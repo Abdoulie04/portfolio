@@ -11,16 +11,19 @@ const competencesRoutes = require('./routes/competences');
 const experiencesRoutes = require('./routes/experiences');
 const app = express();
 
-// Important pour que les cookies secure fonctionnent derrière le proxy de Railway
+// Important pour que les cookies secure fonctionnent derrière un proxy (Render, etc.)
 app.set('trust proxy', 1);
 
-// Connexion MySQL
+// Connexion MySQL (SSL activé uniquement si DB_SSL=true, requis par TiDB Cloud)
 const db = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+  port: Number(process.env.DB_PORT) || 3306,
+  ssl: process.env.DB_SSL === 'true'
+    ? { minVersion: 'TLSv1.2', rejectUnauthorized: true }
+    : undefined,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
